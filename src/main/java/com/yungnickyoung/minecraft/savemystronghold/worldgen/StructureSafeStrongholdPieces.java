@@ -22,6 +22,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class is a direct copy of {@link net.minecraft.world.gen.structure.StructureStrongholdPieces}
+ * but with {@link SafeStructureComponent} instead of {@link StructureComponent}, where necessary.
+ */
 public class StructureSafeStrongholdPieces {
     private static final StructureSafeStrongholdPieces.PieceWeight[] PIECE_WEIGHTS = new StructureSafeStrongholdPieces.PieceWeight[]{new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.Straight.class, 40, 0), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.Prison.class, 5, 5), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.LeftTurn.class, 20, 0), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.RightTurn.class, 20, 0), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.RoomCrossing.class, 10, 6), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.StairsStraight.class, 5, 5), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.Stairs.class, 5, 5), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.Crossing.class, 5, 4), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.ChestCorridor.class, 5, 4), new StructureSafeStrongholdPieces.PieceWeight(StructureSafeStrongholdPieces.Library.class, 10, 2) {
         public boolean canSpawnMoreStructuresOfType(int p_75189_1_) {

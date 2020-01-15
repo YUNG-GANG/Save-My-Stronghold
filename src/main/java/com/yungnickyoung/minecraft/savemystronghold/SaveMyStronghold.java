@@ -6,13 +6,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = "savemystronghold", useMetadata = true, acceptableRemoteVersions = "*")
 public class SaveMyStronghold {
+    public static final Logger LOGGER = LogManager.getLogger("savemystronghold");
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        GameRegistry.registerWorldGenerator(new SafeStrongholdWorldGenerator(), 99999);
+        GameRegistry.registerWorldGenerator(new SafeStrongholdWorldGenerator(), Integer.MAX_VALUE);
     }
 
     @Mod.EventHandler
