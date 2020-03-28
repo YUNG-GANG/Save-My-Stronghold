@@ -13,11 +13,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.storage.loot.LootTables;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
@@ -198,7 +200,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 4, 6, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 1, 0);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 6);
@@ -268,7 +271,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             for(int i = 0; i < this.steps; ++i) {
                 this.setBlockState(worldIn, Blocks.STONE_BRICKS.getDefaultState(), 0, 0, i, structureBoundingBoxIn);
                 this.setBlockState(worldIn, Blocks.STONE_BRICKS.getDefaultState(), 1, 0, i, structureBoundingBoxIn);
@@ -371,7 +375,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 9, 8, 10, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 4, 3, 0);
             if (this.leftLow) {
@@ -443,7 +448,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 4, 4, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 1, 0);
             Direction direction = this.getCoordBaseMode();
@@ -497,7 +503,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             int i = 11;
             if (!this.isLargeRoom) {
                 i = 6;
@@ -666,7 +673,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 10, 7, 15, false, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, SafeStrongholdPieces.Stronghold.Door.GRATES, 4, 1, 0);
             int i = 6;
@@ -785,7 +793,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 8, 4, 10, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 1, 0);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 1, 10, 3, 3, 10, CAVE_AIR, CAVE_AIR, false);
@@ -849,7 +858,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 4, 4, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 1, 0);
             Direction direction = this.getCoordBaseMode();
@@ -905,7 +915,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 10, 6, 10, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 4, 1, 0);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 4, 1, 10, 6, 3, 10, CAVE_AIR, CAVE_AIR, false);
@@ -1056,7 +1067,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 10, 4, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 7, 0);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 4);
@@ -1124,7 +1136,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 10, 7, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 7, 0);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 7);
@@ -1223,7 +1236,8 @@ public class SafeStrongholdPieces {
          * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
          * the end, it adds Fences...
          */
-        public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox structureBoundingBoxIn, ChunkPos chunkPosIn) {
+        @Override
+        public boolean func_225577_a_(@Nonnull IWorld worldIn,@Nonnull ChunkGenerator<?> chunkGenerator,@Nonnull Random randomIn,@Nonnull MutableBoundingBox structureBoundingBoxIn,@Nonnull ChunkPos chunkPosIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 4, 6, true, randomIn, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.entryDoor, 1, 1, 0);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 6);

@@ -9,6 +9,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.*;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Function;
 
@@ -19,14 +20,15 @@ public class SafeStrongholdStructure extends StrongholdStructure {
         super(p_i51428_1_);
     }
 
+    @Nonnull
     @Override
     public Structure.IStartFactory getStartFactory() {
         return SafeStrongholdStructure.SafeStart::new;
     }
 
     public static class SafeStart extends StrongholdStructure.Start {
-        public SafeStart(Structure<?> p_i50780_1_, int p_i50780_2_, int p_i50780_3_, Biome p_i50780_4_, MutableBoundingBox p_i50780_5_, int p_i50780_6_, long p_i50780_7_) {
-            super(p_i50780_1_, p_i50780_2_, p_i50780_3_, p_i50780_4_, p_i50780_5_, p_i50780_6_, p_i50780_7_);
+        public SafeStart(Structure<?> p_i50780_1_, int p_i50780_2_, int p_i50780_3_, MutableBoundingBox p_i50780_5_, int p_i50780_6_, long p_i50780_7_) {
+            super(p_i50780_1_, p_i50780_2_, p_i50780_3_, p_i50780_5_, p_i50780_6_, p_i50780_7_);
         }
 
         public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {

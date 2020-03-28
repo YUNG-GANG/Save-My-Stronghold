@@ -57,7 +57,7 @@ public class SaveMyStronghold {
         biomesList.forEach(e -> {
             Biome b = e.getValue();
             if (b.getCategory() != Biome.Category.NETHER && b.getCategory() != Biome.Category.THEEND)
-                b.addStructure(safeStronghold, IFeatureConfig.NO_FEATURE_CONFIG);
+                b.addStructure(safeStronghold.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         });
     }
 }
