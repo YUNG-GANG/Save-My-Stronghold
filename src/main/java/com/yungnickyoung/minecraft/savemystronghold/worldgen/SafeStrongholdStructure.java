@@ -35,7 +35,7 @@ public class SafeStrongholdStructure extends StrongholdStructure {
             int i = 0;
             long j = generator.getSeed();
 
-            while(true) {
+            while (true) {
                 this.components.clear();
                 this.bounds = MutableBoundingBox.getNewBoundingBox();
                 this.rand.setLargeFeatureSeed(j + (long)(i++), chunkX, chunkZ);

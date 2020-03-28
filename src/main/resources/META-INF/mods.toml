@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[28,)"
+loaderVersion="[31,)"
 issueTrackerURL="https://github.com/yungnickyoung/Save-My-Stronghold/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/save-my-stronghold"
 logoFile="SMSLogo.png"
@@ -15,7 +15,7 @@ logoFile="SMSLogo.png"
 [[dependencies.savemystronghold]]
     modId="forge"
     mandatory=true
-    versionRange="[28,)"
+    versionRange="[31,)"
     ordering="NONE"
     side="BOTH"
 
