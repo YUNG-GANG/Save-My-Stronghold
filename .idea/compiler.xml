@@ -5,6 +5,9 @@
       <module name="Save-My-Stronghold_api" target="1.8" />
       <module name="Save-My-Stronghold_main" target="1.8" />
       <module name="Save-My-Stronghold_test" target="1.8" />
+      <module name="savemystronghold-1.12.2.api" target="1.8" />
+      <module name="savemystronghold-1.12.2.main" target="1.8" />
+      <module name="savemystronghold-1.12.2.test" target="1.8" />
       <module name="savemystronghold-1.12.2_api" target="1.8" />
       <module name="savemystronghold-1.12.2_main" target="1.8" />
       <module name="savemystronghold-1.12.2_test" target="1.8" />
