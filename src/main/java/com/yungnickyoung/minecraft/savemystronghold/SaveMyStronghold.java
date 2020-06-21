@@ -8,6 +8,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -47,11 +48,13 @@ public class SaveMyStronghold {
      * Adds safe stronghold structure to all biomes except Nether and End biomes.
      */
     public void commonSetup(FMLCommonSetupEvent event) {
-        Set<Map.Entry<ResourceLocation, Biome>> biomesList = ForgeRegistries.BIOMES.getEntries();
-        biomesList.forEach(e -> {
-            Biome b = e.getValue();
-            if (b.getCategory() != Biome.Category.NETHER && b.getCategory() != Biome.Category.THEEND)
-                b.addStructure(safeStronghold.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+        DeferredWorkQueue.runLater(() -> {
+            Set<Map.Entry<ResourceLocation, Biome>> biomesList = ForgeRegistries.BIOMES.getEntries();
+            biomesList.forEach(e -> {
+                Biome b = e.getValue();
+                if (b.hasStructure(Feature.STRONGHOLD))
+                    b.addStructure(safeStronghold.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+            });
         });
     }
 }
