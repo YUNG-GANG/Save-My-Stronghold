@@ -3,6 +3,7 @@ package com.yungnickyoung.minecraft.savemystronghold.worldgen;
 import com.google.common.collect.Lists;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
@@ -12,12 +13,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.storage.loot.LootTables;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -42,11 +44,8 @@ public class SafeStrongholdPieces {
 
     public static void prepareStructurePieces() {
         structurePieceList = Lists.newArrayList();
-        SafeStrongholdPieces.PieceWeight[] var0 = PIECE_WEIGHTS;
-        int var1 = var0.length;
 
-        for(int var2 = 0; var2 < var1; ++var2) {
-            SafeStrongholdPieces.PieceWeight lvt_3_1_ = var0[var2];
+        for (PieceWeight lvt_3_1_ : PIECE_WEIGHTS) {
             lvt_3_1_.instancesSpawned = 0;
             structurePieceList.add(lvt_3_1_);
         }
@@ -59,8 +58,8 @@ public class SafeStrongholdPieces {
         totalWeight = 0;
 
         SafeStrongholdPieces.PieceWeight lvt_2_1_;
-        for(Iterator var1 = structurePieceList.iterator(); var1.hasNext(); totalWeight += lvt_2_1_.pieceWeight) {
-            lvt_2_1_ = (SafeStrongholdPieces.PieceWeight)var1.next();
+        for(Iterator<SafeStrongholdPieces.PieceWeight> var1 = structurePieceList.iterator(); var1.hasNext(); totalWeight += lvt_2_1_.pieceWeight) {
+            lvt_2_1_ = var1.next();
             if (lvt_2_1_.instancesLimit > 0 && lvt_2_1_.instancesSpawned < lvt_2_1_.instancesLimit) {
                 lvt_0_1_ = true;
             }
@@ -115,17 +114,15 @@ public class SafeStrongholdPieces {
             while(lvt_8_2_ < 5) {
                 ++lvt_8_2_;
                 int lvt_9_1_ = p_175955_2_.nextInt(totalWeight);
-                Iterator var10 = structurePieceList.iterator();
 
-                while(var10.hasNext()) {
-                    SafeStrongholdPieces.PieceWeight lvt_11_1_ = (SafeStrongholdPieces.PieceWeight)var10.next();
+                for (PieceWeight lvt_11_1_ : structurePieceList) {
                     lvt_9_1_ -= lvt_11_1_.pieceWeight;
                     if (lvt_9_1_ < 0) {
                         if (!lvt_11_1_.canSpawnMoreStructuresOfType(p_175955_7_) || lvt_11_1_ == p_175955_0_.lastPlaced) {
                             break;
                         }
 
-                        SafeStrongholdPieces.Stronghold lvt_12_1_ = findAndCreatePieceFactory(lvt_11_1_.pieceClass, p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_, p_175955_7_);
+                        Stronghold lvt_12_1_ = findAndCreatePieceFactory(lvt_11_1_.pieceClass, p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_, p_175955_7_);
                         if (lvt_12_1_ != null) {
                             ++lvt_11_1_.instancesSpawned;
                             p_175955_0_.lastPlaced = lvt_11_1_;
@@ -192,13 +189,13 @@ public class SafeStrongholdPieces {
         private boolean hasSpawner;
 
         public PortalRoom(int p_i50131_1_, MutableBoundingBox p_i50131_2_, Direction p_i50131_3_) {
-            super(IStructurePieceType.SHPR, p_i50131_1_);
+            super(SafeStrongholdStructurePieceType.SSHPR, p_i50131_1_);
             this.setCoordBaseMode(p_i50131_3_);
             this.boundingBox = p_i50131_2_;
         }
 
         public PortalRoom(TemplateManager p_i50132_1_, CompoundNBT p_i50132_2_) {
-            super(IStructurePieceType.SHPR, p_i50132_2_);
+            super(SafeStrongholdStructurePieceType.SSHPR, p_i50132_2_);
             this.hasSpawner = p_i50132_2_.getBoolean("Mob");
         }
 
@@ -220,7 +217,7 @@ public class SafeStrongholdPieces {
         }
 
         @ParametersAreNonnullByDefault
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 10, 7, 15, false, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, SafeStrongholdPieces.Stronghold.Door.GRATES, 4, 1, 0);
             int lvt_6_1_ = 6;
@@ -319,7 +316,7 @@ public class SafeStrongholdPieces {
         private final boolean rightHigh;
 
         public Crossing(int p_i45580_1_, Random p_i45580_2_, MutableBoundingBox p_i45580_3_, Direction p_i45580_4_) {
-            super(IStructurePieceType.SH5C, p_i45580_1_);
+            super(SafeStrongholdStructurePieceType.SSH5C, p_i45580_1_);
             this.setCoordBaseMode(p_i45580_4_);
             this.entryDoor = this.getRandomDoor(p_i45580_2_);
             this.boundingBox = p_i45580_3_;
@@ -330,7 +327,7 @@ public class SafeStrongholdPieces {
         }
 
         public Crossing(TemplateManager p_i50136_1_, CompoundNBT p_i50136_2_) {
-            super(IStructurePieceType.SH5C, p_i50136_2_);
+            super(SafeStrongholdStructurePieceType.SSH5C, p_i50136_2_);
             this.leftLow = p_i50136_2_.getBoolean("leftLow");
             this.leftHigh = p_i50136_2_.getBoolean("leftHigh");
             this.rightLow = p_i50136_2_.getBoolean("rightLow");
@@ -379,7 +376,7 @@ public class SafeStrongholdPieces {
         }
 
         @ParametersAreNonnullByDefault
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 9, 8, 10, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 4, 3, 0);
             if (this.leftLow) {
@@ -421,7 +418,7 @@ public class SafeStrongholdPieces {
         private final boolean isLargeRoom;
 
         public Library(int p_i45578_1_, Random p_i45578_2_, MutableBoundingBox p_i45578_3_, Direction p_i45578_4_) {
-            super(IStructurePieceType.SHLI, p_i45578_1_);
+            super(SafeStrongholdStructurePieceType.SSHLI, p_i45578_1_);
             this.setCoordBaseMode(p_i45578_4_);
             this.entryDoor = this.getRandomDoor(p_i45578_2_);
             this.boundingBox = p_i45578_3_;
@@ -429,7 +426,7 @@ public class SafeStrongholdPieces {
         }
 
         public Library(TemplateManager p_i50133_1_, CompoundNBT p_i50133_2_) {
-            super(IStructurePieceType.SHLI, p_i50133_2_);
+            super(SafeStrongholdStructurePieceType.SSHLI, p_i50133_2_);
             this.isLargeRoom = p_i50133_2_.getBoolean("Tall");
         }
 
@@ -451,7 +448,7 @@ public class SafeStrongholdPieces {
         }
 
         @ParametersAreNonnullByDefault
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             int lvt_6_1_ = 11;
             if (!this.isLargeRoom) {
                 lvt_6_1_ = 6;
@@ -557,14 +554,14 @@ public class SafeStrongholdPieces {
 
     public static class Prison extends SafeStrongholdPieces.Stronghold {
         public Prison(int p_i45576_1_, Random p_i45576_2_, MutableBoundingBox p_i45576_3_, Direction p_i45576_4_) {
-            super(IStructurePieceType.SHPH, p_i45576_1_);
+            super(SafeStrongholdStructurePieceType.SSHPH, p_i45576_1_);
             this.setCoordBaseMode(p_i45576_4_);
             this.entryDoor = this.getRandomDoor(p_i45576_2_);
             this.boundingBox = p_i45576_3_;
         }
 
         public Prison(TemplateManager p_i50130_1_, CompoundNBT p_i50130_2_) {
-            super(IStructurePieceType.SHPH, p_i50130_2_);
+            super(SafeStrongholdStructurePieceType.SSHPH, p_i50130_2_);
         }
 
         public void buildComponent(StructurePiece p_74861_1_, List<StructurePiece> p_74861_2_, Random p_74861_3_) {
@@ -576,7 +573,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175860_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.Prison(p_175860_6_, p_175860_1_, lvt_7_1_, p_175860_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 8, 4, 10, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 1, 0);
             this.fillWithBlocks(p_225577_1_, p_225577_4_, 1, 1, 10, 3, 3, 10, CAVE_AIR, CAVE_AIR, false);
@@ -610,7 +608,7 @@ public class SafeStrongholdPieces {
         protected final int roomType;
 
         public RoomCrossing(int p_i45575_1_, Random p_i45575_2_, MutableBoundingBox p_i45575_3_, Direction p_i45575_4_) {
-            super(IStructurePieceType.SHRC, p_i45575_1_);
+            super(SafeStrongholdStructurePieceType.SSHRC, p_i45575_1_);
             this.setCoordBaseMode(p_i45575_4_);
             this.entryDoor = this.getRandomDoor(p_i45575_2_);
             this.boundingBox = p_i45575_3_;
@@ -618,7 +616,7 @@ public class SafeStrongholdPieces {
         }
 
         public RoomCrossing(TemplateManager p_i50125_1_, CompoundNBT p_i50125_2_) {
-            super(IStructurePieceType.SHRC, p_i50125_2_);
+            super(SafeStrongholdStructurePieceType.SSHRC, p_i50125_2_);
             this.roomType = p_i50125_2_.getInt("Type");
         }
 
@@ -638,7 +636,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175859_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.RoomCrossing(p_175859_6_, p_175859_1_, lvt_7_1_, p_175859_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 10, 6, 10, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 4, 1, 0);
             this.fillWithBlocks(p_225577_1_, p_225577_4_, 4, 1, 10, 6, 3, 10, CAVE_AIR, CAVE_AIR, false);
@@ -731,14 +730,14 @@ public class SafeStrongholdPieces {
 
     public static class RightTurn extends SafeStrongholdPieces.Turn {
         public RightTurn(int p_i50127_1_, Random p_i50127_2_, MutableBoundingBox p_i50127_3_, Direction p_i50127_4_) {
-            super(IStructurePieceType.SHRT, p_i50127_1_);
+            super(SafeStrongholdStructurePieceType.SSHRT, p_i50127_1_);
             this.setCoordBaseMode(p_i50127_4_);
             this.entryDoor = this.getRandomDoor(p_i50127_2_);
             this.boundingBox = p_i50127_3_;
         }
 
         public RightTurn(TemplateManager p_i50128_1_, CompoundNBT p_i50128_2_) {
-            super(IStructurePieceType.SHRT, p_i50128_2_);
+            super(SafeStrongholdStructurePieceType.SSHRT, p_i50128_2_);
         }
 
         public void buildComponent(StructurePiece p_74861_1_, List<StructurePiece> p_74861_2_, Random p_74861_3_) {
@@ -756,7 +755,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_214824_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.RightTurn(p_214824_6_, p_214824_1_, lvt_7_1_, p_214824_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 4, 4, 4, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 1, 0);
             Direction lvt_6_1_ = this.getCoordBaseMode();
@@ -772,14 +772,14 @@ public class SafeStrongholdPieces {
 
     public static class LeftTurn extends SafeStrongholdPieces.Turn {
         public LeftTurn(int p_i45579_1_, Random p_i45579_2_, MutableBoundingBox p_i45579_3_, Direction p_i45579_4_) {
-            super(IStructurePieceType.SHLT, p_i45579_1_);
+            super(SafeStrongholdStructurePieceType.SSHLT, p_i45579_1_);
             this.setCoordBaseMode(p_i45579_4_);
             this.entryDoor = this.getRandomDoor(p_i45579_2_);
             this.boundingBox = p_i45579_3_;
         }
 
         public LeftTurn(TemplateManager p_i50134_1_, CompoundNBT p_i50134_2_) {
-            super(IStructurePieceType.SHLT, p_i50134_2_);
+            super(SafeStrongholdStructurePieceType.SSHLT, p_i50134_2_);
         }
 
         public void buildComponent(StructurePiece p_74861_1_, List<StructurePiece> p_74861_2_, Random p_74861_3_) {
@@ -797,7 +797,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175867_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.LeftTurn(p_175867_6_, p_175867_1_, lvt_7_1_, p_175867_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 4, 4, 4, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 1, 0);
             Direction lvt_6_1_ = this.getCoordBaseMode();
@@ -823,14 +824,14 @@ public class SafeStrongholdPieces {
 
     public static class StairsStraight extends SafeStrongholdPieces.Stronghold {
         public StairsStraight(int p_i45572_1_, Random p_i45572_2_, MutableBoundingBox p_i45572_3_, Direction p_i45572_4_) {
-            super(IStructurePieceType.SHSSD, p_i45572_1_);
+            super(SafeStrongholdStructurePieceType.SSHSSD, p_i45572_1_);
             this.setCoordBaseMode(p_i45572_4_);
             this.entryDoor = this.getRandomDoor(p_i45572_2_);
             this.boundingBox = p_i45572_3_;
         }
 
         public StairsStraight(TemplateManager p_i50113_1_, CompoundNBT p_i50113_2_) {
-            super(IStructurePieceType.SHSSD, p_i50113_2_);
+            super(SafeStrongholdStructurePieceType.SSHSSD, p_i50113_2_);
         }
 
         public void buildComponent(StructurePiece p_74861_1_, List<StructurePiece> p_74861_2_, Random p_74861_3_) {
@@ -842,7 +843,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175861_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.StairsStraight(p_175861_6_, p_175861_1_, lvt_7_1_, p_175861_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 4, 10, 7, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 7, 0);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 7);
@@ -867,14 +869,14 @@ public class SafeStrongholdPieces {
         private boolean hasMadeChest;
 
         public ChestCorridor(int p_i45582_1_, Random p_i45582_2_, MutableBoundingBox p_i45582_3_, Direction p_i45582_4_) {
-            super(IStructurePieceType.SHCC, p_i45582_1_);
+            super(SafeStrongholdStructurePieceType.SSHCC, p_i45582_1_);
             this.setCoordBaseMode(p_i45582_4_);
             this.entryDoor = this.getRandomDoor(p_i45582_2_);
             this.boundingBox = p_i45582_3_;
         }
 
         public ChestCorridor(TemplateManager p_i50140_1_, CompoundNBT p_i50140_2_) {
-            super(IStructurePieceType.SHCC, p_i50140_2_);
+            super(SafeStrongholdStructurePieceType.SSHCC, p_i50140_2_);
             this.hasMadeChest = p_i50140_2_.getBoolean("Chest");
         }
 
@@ -892,7 +894,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175868_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.ChestCorridor(p_175868_6_, p_175868_1_, lvt_7_1_, p_175868_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 4, 4, 6, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 1, 0);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 6);
@@ -920,7 +923,7 @@ public class SafeStrongholdPieces {
         private final boolean expandsZ;
 
         public Straight(int p_i45573_1_, Random p_i45573_2_, MutableBoundingBox p_i45573_3_, Direction p_i45573_4_) {
-            super(IStructurePieceType.SHS, p_i45573_1_);
+            super(SafeStrongholdStructurePieceType.SSHS, p_i45573_1_);
             this.setCoordBaseMode(p_i45573_4_);
             this.entryDoor = this.getRandomDoor(p_i45573_2_);
             this.boundingBox = p_i45573_3_;
@@ -929,7 +932,7 @@ public class SafeStrongholdPieces {
         }
 
         public Straight(TemplateManager p_i50115_1_, CompoundNBT p_i50115_2_) {
-            super(IStructurePieceType.SHS, p_i50115_2_);
+            super(SafeStrongholdStructurePieceType.SSHS, p_i50115_2_);
             this.expandsX = p_i50115_2_.getBoolean("Left");
             this.expandsZ = p_i50115_2_.getBoolean("Right");
         }
@@ -957,7 +960,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175862_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.Straight(p_175862_6_, p_175862_1_, lvt_7_1_, p_175862_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 4, 4, 6, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 1, 0);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 6);
@@ -986,11 +990,11 @@ public class SafeStrongholdPieces {
         public final List<StructurePiece> pendingChildren = Lists.newArrayList();
 
         public Stairs2(Random p_i50117_1_, int p_i50117_2_, int p_i50117_3_) {
-            super(IStructurePieceType.SHSTART, 0, p_i50117_1_, p_i50117_2_, p_i50117_3_);
+            super(SafeStrongholdStructurePieceType.SSHSTART, 0, p_i50117_1_, p_i50117_2_, p_i50117_3_);
         }
 
         public Stairs2(TemplateManager p_i50118_1_, CompoundNBT p_i50118_2_) {
-            super(IStructurePieceType.SHSTART, p_i50118_2_);
+            super(SafeStrongholdStructurePieceType.SSHSTART, p_i50118_2_);
         }
     }
 
@@ -1011,7 +1015,7 @@ public class SafeStrongholdPieces {
         }
 
         public Stairs(int p_i45574_1_, Random p_i45574_2_, MutableBoundingBox p_i45574_3_, Direction p_i45574_4_) {
-            super(IStructurePieceType.SHSD, p_i45574_1_);
+            super(SafeStrongholdStructurePieceType.SSHSD, p_i45574_1_);
             this.source = false;
             this.setCoordBaseMode(p_i45574_4_);
             this.entryDoor = this.getRandomDoor(p_i45574_2_);
@@ -1024,7 +1028,7 @@ public class SafeStrongholdPieces {
         }
 
         public Stairs(TemplateManager p_i50122_1_, CompoundNBT p_i50122_2_) {
-            this(IStructurePieceType.SHSD, p_i50122_2_);
+            this(SafeStrongholdStructurePieceType.SSHSD, p_i50122_2_);
         }
 
         protected void readAdditional(CompoundNBT p_143011_1_) {
@@ -1045,7 +1049,8 @@ public class SafeStrongholdPieces {
             return canStrongholdGoDeeper(lvt_7_1_) && StructurePiece.findIntersecting(p_175863_0_, lvt_7_1_) == null ? new SafeStrongholdPieces.Stairs(p_175863_6_, p_175863_1_, lvt_7_1_, p_175863_5_) : null;
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             this.fillWithRandomizedBlocks(p_225577_1_, p_225577_4_, 0, 0, 0, 4, 10, 4, true, p_225577_3_, SafeStrongholdPieces.STRONGHOLD_STONES);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, this.entryDoor, 1, 7, 0);
             this.placeDoor(p_225577_1_, p_225577_3_, p_225577_4_, SafeStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 4);
@@ -1074,14 +1079,14 @@ public class SafeStrongholdPieces {
         private final int steps;
 
         public Corridor(int p_i50137_1_, MutableBoundingBox p_i50137_2_, Direction p_i50137_3_) {
-            super(IStructurePieceType.SHFC, p_i50137_1_);
+            super(SafeStrongholdStructurePieceType.SSHFC, p_i50137_1_);
             this.setCoordBaseMode(p_i50137_3_);
             this.boundingBox = p_i50137_2_;
             this.steps = p_i50137_3_ != Direction.NORTH && p_i50137_3_ != Direction.SOUTH ? p_i50137_2_.getXSize() : p_i50137_2_.getZSize();
         }
 
         public Corridor(TemplateManager p_i50138_1_, CompoundNBT p_i50138_2_) {
-            super(IStructurePieceType.SHFC, p_i50138_2_);
+            super(SafeStrongholdStructurePieceType.SSHFC, p_i50138_2_);
             this.steps = p_i50138_2_.getInt("Steps");
         }
 
@@ -1109,7 +1114,8 @@ public class SafeStrongholdPieces {
             }
         }
 
-        public boolean func_225577_a_(IWorld p_225577_1_, ChunkGenerator<?> p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_) {
+        @ParametersAreNonnullByDefault
+        public boolean func_230383_a_(ISeedReader p_225577_1_, StructureManager structureManager, ChunkGenerator p_225577_2_, Random p_225577_3_, MutableBoundingBox p_225577_4_, ChunkPos p_225577_5_, BlockPos blockPos) {
             for(int lvt_6_1_ = 0; lvt_6_1_ < this.steps; ++lvt_6_1_) {
                 this.setBlockState(p_225577_1_, Blocks.STONE_BRICKS.getDefaultState(), 0, 0, lvt_6_1_, p_225577_4_);
                 this.setBlockState(p_225577_1_, Blocks.STONE_BRICKS.getDefaultState(), 1, 0, lvt_6_1_, p_225577_4_);
@@ -1137,16 +1143,14 @@ public class SafeStrongholdPieces {
     }
 
     abstract static class Stronghold extends SafeStructurePiece {
-        protected SafeStrongholdPieces.Stronghold.Door entryDoor;
+        protected SafeStrongholdPieces.Stronghold.Door entryDoor = Door.OPENING;
 
         protected Stronghold(IStructurePieceType p_i50110_1_, int p_i50110_2_) {
             super(p_i50110_1_, p_i50110_2_);
-            this.entryDoor = SafeStrongholdPieces.Stronghold.Door.OPENING;
         }
 
         public Stronghold(IStructurePieceType p_i50111_1_, CompoundNBT p_i50111_2_) {
             super(p_i50111_1_, p_i50111_2_);
-            this.entryDoor = SafeStrongholdPieces.Stronghold.Door.OPENING;
             this.entryDoor = SafeStrongholdPieces.Stronghold.Door.valueOf(p_i50111_2_.getString("EntryDoor"));
         }
 
@@ -1274,14 +1278,11 @@ public class SafeStrongholdPieces {
             return p_74991_0_ != null && p_74991_0_.minY > 10;
         }
 
-        public static enum Door {
+        public enum Door {
             OPENING,
             WOOD_DOOR,
             GRATES,
             IRON_DOOR;
-
-            private Door() {
-            }
         }
     }
 
