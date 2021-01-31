@@ -1,6 +1,5 @@
 package com.yungnickyoung.minecraft.savemystronghold;
 
-import com.yungnickyoung.minecraft.savemystronghold.init.ModStructures;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,11 +12,5 @@ public class SaveMyStronghold {
     public static final String MOD_ID = "savemystronghold";
     public static final Logger LOGGER = LogManager.getLogger("savemystronghold");
 
-    public SaveMyStronghold() {
-        init();
-    }
-
-    private void init() {
-        ModStructures.init();
-    }
+    public SaveMyStronghold() {}
 }
