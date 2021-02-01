@@ -2,7 +2,6 @@
   "required": true,
   "package": "com.yungnickyoung.minecraft.savemystronghold.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "savemystronghold.refmap.json",
   "mixins": ["StrongholdMixin"],
   "injectors": {
     "defaultRequire": 1

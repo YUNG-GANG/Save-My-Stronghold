@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "savemystronghold",
+  "version": "${version}",
+  "name": "Save My Stronghold!",
+  "description": "A lightweight mod to prevent strongholds from being torn up by underground caves and structures.",
+  "authors": [
+    "YUNGNICKYOUNG"
+  ],
+  "contact": {
+    "sources": "https://github.com/yungnickyoung/Save-My-Stronghold/tree/fabric-1.16",
+    "discord": "discord.gg/rns3beq",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/save-my-stronghold-fabric",
+    "issues": "https://github.com/yungnickyoung/Save-My-Stronghold/issues"
+  },
+  "license": "GPLv3",
+  "icon": "SMSLogo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.yungnickyoung.minecraft.savemystronghold.SaveMyStronghold"
+    ]
+  },
+  "mixins": [
+    "savemystronghold.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "minecraft": ">=1.16.4"
+  },
+  "accessWidener": "savemystronghold.aw"
+}

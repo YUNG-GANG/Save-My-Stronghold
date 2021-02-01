@@ -19,6 +19,8 @@
       <module name="savemystronghold-1.16.1.test" target="1.8" />
       <module name="savemystronghold-1.16.4.main" target="1.8" />
       <module name="savemystronghold-1.16.4.test" target="1.8" />
+      <module name="savemystronghold.main" target="1.8" />
+      <module name="savemystronghold.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
