@@ -13,7 +13,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/save-my-stronghold-fabric",
     "issues": "https://github.com/yungnickyoung/Save-My-Stronghold/issues"
   },
-  "license": "GPLv3",
+  "license": "LGPLv3",
   "icon": "SMSLogo.png",
   "environment": "*",
   "entrypoints": {
